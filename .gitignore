@@ -1,0 +1,3 @@
+.idea
+**/migrations/*
+!__init__.py
