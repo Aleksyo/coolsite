@@ -1,15 +1,16 @@
 {% extends 'women/base.html' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
+{#    <h1>{{ title }}</h1>#}
 
-    <ul>
-        {% for p in posts %}
-            <li>
-                <h2>{{ p.title }}</h2>
-                <p>{{ p.content }}</p>
-                <hr>
-            </li>
-        {% endfor %}
-    </ul>
+    {% for p in posts %}
+        <div class="card mb-3 {% if forloop.first %}mt-5{% endif %}">
+            <h5 class="card-header">{{ p.title }}</h5>
+            <div class="card-body">
+                <p class="card-text">{{ p.content }}</p>
+                <a href="#" class="btn btn-primary">Читать...</a>
+            </div>
+        </div>
+    {% endfor %}
+
 {% endblock content %}
