@@ -12,34 +12,45 @@
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Logo</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <a class="navbar-brand" href="{% url 'home' %}">Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
+                aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarsExample04">
-        {% block mainmenu %}
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            {% for m in menu %}
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">{{ m.title }}</a>
-          </li>
-{#          <li class="nav-item">#}
-{#            <a class="nav-link" href="#">Link</a>#}
-{#          </li>#}
-{#          <li class="nav-item">#}
-{#            <a class="nav-link disabled">Disabled</a>#}
-{#          </li>#}
-            {% endfor %}
-        </ul>
-          {% endblock mainmenu %}
-      </div>
+        <div class="collapse navbar-collapse" id="navbarsExample04">
+            {% block mainmenu %}
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    {% for m in menu %}
+                        {% if not forloop.last %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">{{ m.title }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <ul class="navbar-nav mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">{{ menu|last }}</a>
+                    </li>
+                </ul>
+            {% endblock mainmenu %}
+        </div>
     </div>
-  </nav>
+</nav>
 
-
-{% block content %}
-{% endblock content %}
+<div class="row">
+    <div class="col-md-3 col-lg-2 mt-5">
+        <ul class="list-group">
+            <li class="list-group-item active" aria-current="true">Все категории</li>
+            <li class="list-group-item">Актрисы</li>
+            <li class="list-group-item">Певицы</li>
+            <li class="list-group-item">Спортсменки</li>
+        </ul>
+    </div>
+    {% block content %}
+    {% endblock content %}
+</div>
 
 </body>
 </html>
