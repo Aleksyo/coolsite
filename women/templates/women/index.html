@@ -1,16 +1,13 @@
 {% extends 'women/base.html' %}
 
 {% block content %}
-
-<div class="col-md-8 col-lg-9">
     {% for p in posts %}
         <div class="card mb-3 {% if forloop.first %}mt-5{% endif %}">
             <h5 class="card-header">{{ p.title }}</h5>
             <div class="card-body">
                 <p class="card-text">{{ p.content|linebreaks|truncatewords:50 }}</p>
-                <a href="#" class="btn btn-primary">Читать пост</a>
+                <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Читать пост</a>
             </div>
         </div>
     {% endfor %}
-</div>
 {% endblock content %}

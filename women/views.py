@@ -2,12 +2,19 @@ from django.http import HttpResponseNotFound, Http404
 from django.shortcuts import render, HttpResponse, redirect
 from .models import Women
 
-menu = ['О сайте', 'Добавить статью', 'Обратная связь', 'Войти']
+menu = [{'title': 'О сайте', 'url_name': 'about'},
+        {'title': 'Добавить статью', 'url_name': 'add_page'},
+        {'title': 'Обратная связь', 'url_name': 'contact'},
+        {'title': 'Войти', 'url_name': 'login'}]
 
 
 def index(request):
     posts = Women.objects.all()
-    return render(request, 'women/index.html', {'posts': posts, 'menu': menu, 'title': 'Главная страница'})
+    context = {'posts': posts,
+               'menu': menu,
+               'title': 'Главная страница'}
+
+    return render(request, 'women/index.html', context=context)
 
 
 def about(request):
@@ -18,6 +25,22 @@ def categories(request, catid):
     if request.GET:
         print(request.GET)
     return HttpResponse(f'<h2>Cats: {catid}</h2>')
+
+
+def addpage(request):
+    return HttpResponse('Добавить страницу')
+
+
+def contact(request):
+    return HttpResponse('Контакты')
+
+
+def login(request):
+    return HttpResponse('Вход')
+
+
+def show_post(request, post_id):
+    return HttpResponse(f'Отображение статьи с id={post_id}')
 
 
 def archive(request, year):
