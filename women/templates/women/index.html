@@ -5,6 +5,8 @@
         <div class="card mb-3 {% if forloop.first %}mt-5{% endif %}">
             <h5 class="card-header">{{ p.title }}</h5>
             <div class="card-body">
+                <span>Категория: {{ p.cat }}</span><br>
+                <span><em>Дата: {{ p.time_update|date:"d-m-Y H:i:s" }}</em></span>
                 <p class="card-text">{{ p.content|linebreaks|truncatewords:50 }}</p>
                 <a href="{{ p.get_absolute_url }}" class="btn btn-primary">Читать пост</a>
             </div>

@@ -46,12 +46,26 @@
 
 <div class="row">
     <div class="col-md-3 col-lg-2 mt-5">
-        <ul class="list-group">
-            <li class="list-group-item active" aria-current="true">Все категории</li>
-            <li class="list-group-item">Актрисы</li>
-            <li class="list-group-item">Певицы</li>
-            <li class="list-group-item">Спортсменки</li>
-        </ul>
+        <div class="list-group">
+            {% if cat_selected == 0 %}
+                <a href="{% url 'home' %}" class="list-group-item list-group-item-action active" aria-current="true">
+                    Все категории
+                </a>
+            {% else %}
+                <a href="{% url 'home' %}" class="list-group-item list-group-item-action" aria-current="true">
+                    Все категории
+                </a>
+            {% endif %}
+
+            {% for c in cats %}
+                {% if c.pk == cat_selected %}
+                    <a href="{{ c.get_absolute_url }}"
+                       class="list-group-item list-group-item-action active">{{ c.name }}</a>
+                {% else %}
+                    <a href="{{ c.get_absolute_url }}" class="list-group-item list-group-item-action">{{ c.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
     <div class="col-md-8 col-lg-9">
         {% block content %}
