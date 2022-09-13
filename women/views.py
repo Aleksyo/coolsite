@@ -9,7 +9,7 @@ menu = [{'title': 'О сайте', 'url_name': 'about'},
 
 
 def index(request):
-    posts = Women.objects.all()
+    posts = Women.objects.filter(is_published=True)
     cats = Category.objects.all()
     context = {'posts': posts,
                'cats': cats,
@@ -42,7 +42,7 @@ def show_post(request, post_id):
 
 
 def show_category(request, cat_id):
-    posts = Women.objects.filter(cat_id=cat_id)
+    posts = Women.objects.filter(cat_id=cat_id, is_published=True)
     cats = Category.objects.all()
 
     if not len(posts):
