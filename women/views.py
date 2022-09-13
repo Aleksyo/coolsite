@@ -11,7 +11,6 @@ menu = [{'title': 'О сайте', 'url_name': 'about'},
 def index(request):
     posts = Women.objects.filter(is_published=True)
     context = {'posts': posts,
-               'menu': menu,
                'title': 'Главная страница',
                'cat_selected': 0,
                }
@@ -46,7 +45,6 @@ def show_category(request, cat_id):
         raise Http404
 
     context = {'posts': posts,
-               'menu': menu,
                'title': 'Отображение по рубрикам',
                'cat_selected': cat_id,
                }
