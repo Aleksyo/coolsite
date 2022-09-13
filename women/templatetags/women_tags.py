@@ -1,5 +1,6 @@
 from django import template
 from women.models import *
+from women.views import menu
 
 register = template.Library()
 
@@ -19,3 +20,8 @@ def show_categories(sort=None, cat_selected=0):
     else:
         cats = Category.objects.order_by(sort)
     return {'cats': cats, 'cat_selected': cat_selected}
+
+
+@register.inclusion_tag('women/list_menu.html')
+def show_menu():
+    return {'menu': menu}
