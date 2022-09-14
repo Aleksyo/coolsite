@@ -1,5 +1,5 @@
 from django.http import HttpResponseNotFound, Http404
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Women, Category
 
 menu = [{'title': 'О сайте', 'url_name': 'about'},
@@ -23,7 +23,7 @@ def about(request):
 
 
 def addpage(request):
-    return HttpResponse('Добавить страницу')
+    return render(request, 'women/addpage.html', {'menu': menu, 'title': 'Добавление статьи'})
 
 
 def contact(request):
@@ -34,30 +34,36 @@ def login(request):
     return HttpResponse('Вход')
 
 
-def show_post(request, post_id):
-    return HttpResponse(f'Отображение статьи с id={post_id}')
+def show_post(request, post_slug):
+    post = get_object_or_404(Women, slug=post_slug)
+    context = {
+        'post': post,
+        'menu': menu,
+        'title': post.title,
+        'cat_selected': post.cat.slug,
+    }
+    return render(request, 'women/post.html', context=context)
 
 
-def show_category(request, cat_id):
-    posts = Women.objects.filter(cat_id=cat_id, is_published=True)
+def show_category(request, cat_slug):
+    posts = Women.objects.filter(cat__slug=cat_slug, is_published=True)
 
     if not len(posts):
         raise Http404
 
     context = {'posts': posts,
                'title': 'Отображение по рубрикам',
-               'cat_selected': cat_id,
+               'cat_selected': cat_slug,
                }
 
     return render(request, 'women/index.html', context=context)
 
 
-def archive(request, year):
-    if int(year) > 2020:
-        # raise Http404()
-        return redirect('home')
-    return HttpResponse(f'<h2>Archive: {year}</h2>')
-
-
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h2>')
+
+# def archive(request, year):
+#     if int(year) > 2020:
+#         # raise Http404()
+#         return redirect('home')
+#     return HttpResponse(f'<h2>Archive: {year}</h2>')
