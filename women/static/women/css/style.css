@@ -3,3 +3,15 @@
     margin: 0 7px 7px 0; /* Отступы вокруг картинки */
     width: 150px;
 }
+
+.form-label {
+    display: inline-block;
+    min-width: 120px;
+    vertical-align: top;
+}
+
+.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
