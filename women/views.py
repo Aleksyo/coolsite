@@ -25,24 +25,14 @@ def about(request):
 
 def addpage(request):
     if request.method == 'POST':
-        form = AddPostForm(request.POST)
+        form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
-            try:
-                Women.objects.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Ошибка добавления поста')
+            # Women.objects.create(**form.cleaned_data)
+            form.save()
+            return redirect('home')
     else:
         form = AddPostForm()
     return render(request, 'women/addpage.html', {'menu': menu, 'title': 'Добавление статьи', 'form': form})
-
-
-def contact(request):
-    return HttpResponse('Контакты')
-
-
-def login(request):
-    return HttpResponse('Вход')
 
 
 def show_post(request, post_slug):
@@ -68,6 +58,14 @@ def show_category(request, cat_slug):
                }
 
     return render(request, 'women/index.html', context=context)
+
+
+def contact(request):
+    return HttpResponse('Контакты')
+
+
+def login(request):
+    return HttpResponse('Вход')
 
 
 def page_not_found(request, exception):
