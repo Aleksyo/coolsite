@@ -1,6 +1,6 @@
 from django.http import HttpResponseNotFound, Http404
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, CreateView
 from .forms import *
 from .models import Women, Category
 
@@ -50,15 +50,28 @@ def addpage(request):
     return render(request, 'women/addpage.html', {'menu': menu, 'title': 'Добавление статьи', 'form': form})
 
 
-def show_post(request, post_slug):
-    post = get_object_or_404(Women, slug=post_slug)
-    context = {
-        'post': post,
-        'menu': menu,
-        'title': post.title,
-        'cat_selected': post.cat.slug,
-    }
-    return render(request, 'women/post.html', context=context)
+class ShowPost(DetailView):
+    model = Women
+    template_name = 'women/post.html'
+    slug_url_kwarg = 'post_slug'
+    context_object_name = 'post'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['post']
+        context['cat_selected'] = context['post'].cat.slug
+        return context
+
+
+# def show_post(request, post_slug):
+#     post = get_object_or_404(Women, slug=post_slug)
+#     context = {
+#         'post': post,
+#         'menu': menu,
+#         'title': post.title,
+#         'cat_selected': post.cat.slug,
+#     }
+#     return render(request, 'women/post.html', context=context)
 
 
 class WomenCategory(ListView):
